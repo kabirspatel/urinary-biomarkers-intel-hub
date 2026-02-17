@@ -10,7 +10,11 @@ def get_database_url() -> str:
     return os.environ.get("DATABASE_URL", "sqlite:///local.db")
 
 def get_engine():
-    return create_engine(get_database_url(), pool_pre_ping=True)
+    return create_engine(
+        get_database_url(),
+        pool_pre_ping=True,
+        connect_args={"prepare_threshold": 0},
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=get_engine())
 
