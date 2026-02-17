@@ -11,6 +11,7 @@ import pandas as pd
 from sqlalchemy import select
 from db.session import db_session
 from db.models import Item
+from sqlalchemy.orm import selectinload
 
 from db.bootstrap import ensure_tables
 ensure_tables()
@@ -31,7 +32,14 @@ with colC:
 cutoff = datetime.utcnow() - timedelta(days=int(days))
 
 with db_session() as s:
-    stmt = select(Item).where(Item.item_type==item_type, Item.fetched_at>=cutoff)
+    stmt = (
+    select(Item)
+    .options(selectinload(Item.source))
+    .where(Item.item_type == module)
+    .where(Item.fetched_at >= since_dt)
+    .order_by(Item.fetched_at.desc())
+    .limit(200)
+)
     if query.strip():
         stmt = stmt.where(Item.title.ilike(f"%{query.strip()}%"))
     rows = s.execute(
