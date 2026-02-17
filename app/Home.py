@@ -13,8 +13,8 @@ from db.session import db_session
 from db.models import Item
 from sqlalchemy.orm import selectinload
 
-from db.bootstrap import ensure_tables
-ensure_tables()
+#from db.bootstrap import ensure_tables
+#ensure_tables()
 
 st.set_page_config(page_title="Urinary Biomarkers Intelligence Hub", layout="wide")
 

@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from sqlalchemy.orm import selectinload
 
 ROOT = Path(__file__).resolve().parents[1]  # repo root (parent of /app)
 if str(ROOT) not in sys.path:
@@ -12,8 +13,8 @@ from sqlalchemy import select
 from db.session import db_session
 from db.models import Item
 
-from db.bootstrap import ensure_tables
-ensure_tables()
+#from db.bootstrap import ensure_tables
+#ensure_tables()
 
 st.title("News Module")
 
@@ -22,10 +23,12 @@ cutoff = datetime.utcnow() - timedelta(days=int(days))
 
 with db_session() as s:
     rows = s.execute(
-        select(Item).where(Item.item_type=="news", Item.fetched_at>=cutoff)
-        .order_by(Item.published_at.desc().nullslast(), Item.fetched_at.desc())
-        .limit(300)
-    ).scalars().all()
+    select(Item)
+    .options(selectinload(Item.source))
+    .where(Item.item_type=="news", Item.fetched_at>=cutoff)
+    .order_by(Item.published_at.desc().nullslast(), Item.fetched_at.desc())
+    .limit(300)
+).scalars().all()
 
 df = pd.DataFrame([{
     "Published": r.published_at,
