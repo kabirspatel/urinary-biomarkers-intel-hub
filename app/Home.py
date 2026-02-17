@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]  # repo root (parent of /app)
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+    
 import streamlit as st
 from datetime import datetime, timedelta
 import pandas as pd
