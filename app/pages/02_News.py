@@ -12,6 +12,9 @@ from sqlalchemy import select
 from db.session import db_session
 from db.models import Item
 
+from db.bootstrap import ensure_tables
+ensure_tables()
+
 st.title("News Module")
 
 days = st.slider("Days", 1, 180, 30)

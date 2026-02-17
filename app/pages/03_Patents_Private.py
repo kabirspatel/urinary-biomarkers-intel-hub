@@ -13,6 +13,9 @@ from db.session import db_session
 from db.models import Item
 from services.auth.access import require_login
 
+from db.bootstrap import ensure_tables
+ensure_tables()
+
 require_login()
 st.title("Patents Radar (Private)")
 
