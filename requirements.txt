@@ -1,0 +1,10 @@
+streamlit==1.37.1
+pandas==2.2.2
+requests==2.32.3
+feedparser==6.0.11
+python-dateutil==2.9.0.post0
+sqlalchemy==2.0.32
+psycopg[binary]
+alembic==1.13.2
+pydantic==2.8.2
+python-dotenv==1.0.1
