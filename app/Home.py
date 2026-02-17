@@ -15,17 +15,6 @@ from db.models import Item
 from db.bootstrap import ensure_tables
 ensure_tables()
 
-from sqlalchemy import select, func
-from db.session import db_session
-from db.models import Item
-from scripts.run_ingest import main as ingest_main
-
-with db_session() as s:
-    count = s.execute(select(func.count()).select_from(Item)).scalar_one()
-
-if count == 0:
-    ingest_main()
-
 st.set_page_config(page_title="Urinary Biomarkers Intelligence Hub", layout="wide")
 
 st.title("Urinary Biomarkers Intelligence Hub")
